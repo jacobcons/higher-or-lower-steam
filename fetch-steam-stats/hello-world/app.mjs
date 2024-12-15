@@ -18,10 +18,9 @@ export const lambdaHandler = async (event, context) => {
   const response = {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'change',
-    })
+      message: 'data uploaded to gist',
+    }),
   };
 
   return response;
 };
-  
