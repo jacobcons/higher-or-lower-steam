@@ -14,7 +14,6 @@ export default function App() {
 
   useEffect(() => {
     const fetchGameData = async () => {
-      debugger;
       const res = await fetch(
         'https://gist.githubusercontent.com/jacobcons/98afc1384c066954b36bf86e16bb2c01/raw/119005fc77abc0c4ee980b10953ea4ff30537c85/steam-game-data.json',
       );
@@ -28,8 +27,11 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="flex flex-col items-center lg:flex-row">
       <GameCard {...gameA} />
+      <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-3xl font-bold text-white">
+        OR
+      </div>
       <GameCard {...gameB} />
     </div>
   );
