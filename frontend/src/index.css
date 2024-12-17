@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --divider-size: 3rem
+}
+
+@screen xs {
+  :root {
+    --divider-size: 5rem
+  }
+}

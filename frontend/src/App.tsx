@@ -29,7 +29,7 @@ export default function App() {
   return (
     <div className="flex flex-col items-center lg:flex-row">
       <GameCard {...gameA} />
-      <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-3xl font-bold text-white">
+      <div className="flex h-[var(--divider-size)] w-[var(--divider-size)] flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-2xl font-bold text-white">
         OR
       </div>
       <GameCard {...gameB} />
