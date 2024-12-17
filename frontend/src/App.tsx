@@ -1,17 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import GameCard from './GameCard.tsx';
+import { GameData } from './types.ts';
 
-export default async function App() {
-  const [count, setCount] = useState(0);
+let gameData: GameData[] = [];
 
-  const res = await fetch(
-    `https://gist.githubusercontent.com/sunilshenoy/23a3e7132c27d62599ba741bce13056a/raw/517b07fc382c843dcc7d444046d959a318695245/sample_json.json`,
-  );
-  const txt = await res.text();
-  console.log(txt);
+function pickRandom(arr) {
+  return arr.splice(Math.floor(Math.random() * arr.length), 1)[0];
+}
+
+export default function App() {
+  const [gameA, setGameA] = useState<GameData>();
+  const [gameB, setGameB] = useState<GameData>();
+
+  useEffect(() => {
+    const fetchGameData = async () => {
+      debugger;
+      const res = await fetch(
+        'https://gist.githubusercontent.com/jacobcons/98afc1384c066954b36bf86e16bb2c01/raw/119005fc77abc0c4ee980b10953ea4ff30537c85/steam-game-data.json',
+      );
+      const txt = await res.text();
+      gameData = JSON.parse(txt) as GameData[];
+      setGameA(pickRandom(gameData));
+      setGameB(pickRandom(gameData));
+    };
+
+    fetchGameData();
+  }, []);
 
   return (
-    <>
-      <h1 className="text-3xl font-bold">hi</h1>
-    </>
+    <div className="flex">
+      <GameCard {...gameA} />
+      <GameCard {...gameB} />
+    </div>
   );
 }
