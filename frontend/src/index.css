@@ -11,3 +11,9 @@
     --divider-size: 5rem
   }
 }
+
+@screen vertical {
+  :root {
+    --divider-size: 3rem;
+  }
+}

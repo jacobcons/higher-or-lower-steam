@@ -5,15 +5,17 @@ export default function GameCard({ id, name, currentPlayers }: GameData) {
   const [noHeaderImage, setNoHeaderImage] = useState(false);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-y-3 lg:gap-y-6">
-      <h2 className="text-center text-3xl font-bold text-gray-900">{name}</h2>
+    <div className="flex w-full flex-col items-center justify-center gap-y-3 lg:gap-y-6 vertical:gap-y-2">
+      <h2 className="text-center text-3xl font-bold text-gray-900 vertical:text-lg">
+        {name}
+      </h2>
 
       {!noHeaderImage && (
         <img
           src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`}
           onError={() => setNoHeaderImage(true)}
           alt=""
-          className="w-[460px]"
+          className="w-[460px] vertical:w-[184px]"
         />
       )}
       {noHeaderImage && (
@@ -21,14 +23,16 @@ export default function GameCard({ id, name, currentPlayers }: GameData) {
           ?
         </div>
       )}
-      <p className="text-xl text-gray-700">Current players: </p>
+      <p className="text-xl text-gray-700 vertical:text-sm">
+        Current players:{' '}
+      </p>
 
       <button
         type="button"
-        className="me-2 inline-flex items-center gap-x-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-base font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300"
+        className="me-2 inline-flex items-center gap-x-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-base font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 vertical:px-2.5 vertical:py-1.5 vertical:text-xs"
       >
         <span>Higher</span>
-        <span className="text-xl">⬆️</span>
+        <span className="text-xl vertical:text-base">⬆️</span>
       </button>
     </div>
   );
