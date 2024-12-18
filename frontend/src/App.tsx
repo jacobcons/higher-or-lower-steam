@@ -11,6 +11,7 @@ function pickRandom(arr) {
 export default function App() {
   const [gameA, setGameA] = useState<GameData>();
   const [gameB, setGameB] = useState<GameData>();
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const fetchGameData = async () => {
@@ -27,12 +28,19 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center lg:flex-row">
-      <GameCard {...gameA} />
-      <div className="flex h-[var(--divider-size)] w-[var(--divider-size)] flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-2xl font-bold text-white">
-        OR
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="px-8">
+        <span className="mb-8 block text-center text-4xl font-bold text-gray-900 lg:mb-16">
+          Score: {score}
+        </span>
+        <div className="flex flex-col items-center gap-x-20 gap-y-8 lg:flex-row">
+          <GameCard {...gameA} />
+          <div className="flex h-[var(--divider-size)] w-[var(--divider-size)] flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-base font-bold text-white lg:text-lg">
+            OR
+          </div>
+          <GameCard {...gameB} />
+        </div>
       </div>
-      <GameCard {...gameB} />
     </div>
   );
 }

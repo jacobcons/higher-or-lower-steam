@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --divider-size: 3rem
+  --divider-size: 4rem
 }
 
-@screen xs {
+@screen lg {
   :root {
     --divider-size: 5rem
   }
