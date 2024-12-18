@@ -6,12 +6,6 @@
   --divider-size: 4rem
 }
 
-@screen lg {
-  :root {
-    --divider-size: 5rem
-  }
-}
-
 @screen vertical {
   :root {
     --divider-size: 3rem;

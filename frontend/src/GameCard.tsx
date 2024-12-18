@@ -18,7 +18,7 @@ export default function GameCard({ id, name, currentPlayers }: GameData) {
         src={src}
         onError={() => setImageNotFound(true)}
         alt=""
-        className="w-[460px] vertical:w-[184px]"
+        className="w-[420px] vertical:w-[300px]"
       />
 
       <p className="text-xl text-gray-700 vertical:text-sm">

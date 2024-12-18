@@ -33,9 +33,9 @@ export default function App() {
         <span className="mb-8 block text-center text-4xl font-bold text-gray-900 vertical:mb-4 vertical:text-xl">
           Score: {score}
         </span>
-        <div className="flex flex-col items-center gap-x-20 gap-y-8 lg:flex-row vertical:gap-y-4">
+        <div className="flex flex-col items-end gap-x-12 gap-y-8 lg:flex-row vertical:gap-y-4">
           <GameCard {...gameA} />
-          <div className="flex h-[var(--divider-size)] w-[var(--divider-size)] flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-base font-bold text-white lg:text-lg vertical:text-sm">
+          <div className="flex h-[var(--divider-size)] w-[var(--divider-size)] flex-shrink-0 items-center justify-center self-center rounded-full bg-gray-900 text-base font-bold text-white lg:text-lg vertical:text-sm">
             OR
           </div>
           <GameCard {...gameB} />
