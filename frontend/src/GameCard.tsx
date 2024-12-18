@@ -2,7 +2,11 @@ import { GameData } from './types.ts';
 import { useState } from 'react';
 
 export default function GameCard({ id, name, currentPlayers }: GameData) {
-  const [noHeaderImage, setNoHeaderImage] = useState(false);
+  const [imageNotFound, setImageNotFound] = useState(false);
+
+  const src = imageNotFound
+    ? 'steam.png'
+    : `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`;
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 lg:gap-y-6 vertical:gap-y-2">
@@ -10,19 +14,13 @@ export default function GameCard({ id, name, currentPlayers }: GameData) {
         {name}
       </h2>
 
-      {!noHeaderImage && (
-        <img
-          src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`}
-          onError={() => setNoHeaderImage(true)}
-          alt=""
-          className="w-[460px] vertical:w-[184px]"
-        />
-      )}
-      {noHeaderImage && (
-        <div className="flex aspect-[460/215] w-[460px] items-center justify-center bg-gray-900 text-6xl font-bold text-white">
-          ?
-        </div>
-      )}
+      <img
+        src={src}
+        onError={() => setImageNotFound(true)}
+        alt=""
+        className="w-[460px] vertical:w-[184px]"
+      />
+
       <p className="text-xl text-gray-700 vertical:text-sm">
         Current players:{' '}
       </p>
