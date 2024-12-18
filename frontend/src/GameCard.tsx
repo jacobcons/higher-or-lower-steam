@@ -1,8 +1,16 @@
-import { GameData } from './types.ts';
+import { GameCardData } from './types.ts';
 import { useState } from 'react';
 
-export default function GameCard({ id, name, currentPlayers }: GameData) {
+export default function GameCard({
+  id,
+  name,
+  currentPlayers,
+  showCurrentPlayers,
+  handleClick,
+}: GameCardData & { handleClick: (id: string) => void }) {
   const [imageNotFound, setImageNotFound] = useState(false);
+
+  const formattedCurrentPlayers = currentPlayers.toLocaleString();
 
   const src = imageNotFound
     ? 'steam.png'
@@ -23,11 +31,15 @@ export default function GameCard({ id, name, currentPlayers }: GameData) {
 
       <p className="text-xl text-gray-700 vertical:text-sm">
         Current players:{' '}
+        <span className="font-extrabold">
+          {showCurrentPlayers && formattedCurrentPlayers}
+        </span>
       </p>
 
       <button
         type="button"
         className="me-2 inline-flex items-center gap-x-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-base font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 vertical:px-2.5 vertical:py-1.5 vertical:text-xs"
+        onClick={() => handleClick(id)}
       >
         <span>Higher</span>
         <span className="text-xl vertical:text-base">⬆️</span>

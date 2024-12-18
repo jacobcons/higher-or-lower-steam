@@ -8,6 +8,9 @@ export default {
         lg: '1025px',
         vertical: { raw: '(max-width: 1025px) and (max-height: 843px)' },
       },
+      fontFamily: {
+        arial: ['arial'],
+      },
     },
   },
   plugins: [],
