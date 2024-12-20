@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import GameCard from './GameCard.tsx';
 import { DividerState, GameCardData, GameData } from './types.ts';
+import { pickRandom, wait } from './utils.ts';
 
 let gameData: GameData[] = [];
-
-function pickRandom<T>(arr: T[]) {
-  return arr.splice(Math.floor(Math.random() * arr.length), 1)[0];
-}
 
 export default function App() {
   const [gameCardAData, setGameCardAData] = useState<GameCardData>();
   const [gameCardBData, setGameCardBData] = useState<GameCardData>();
-  const [score, setScore] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [dividerState, setDividerState] = useState(DividerState.Or);
 
   useEffect(() => {
@@ -21,17 +18,34 @@ export default function App() {
       );
       const txt = await res.text();
       gameData = JSON.parse(txt) as GameData[];
-      setGameCardAData({ ...pickRandom(gameData), showCurrentPlayers: true });
-      setGameCardBData({ ...pickRandom(gameData), showCurrentPlayers: false });
+      setGameCardAData({
+        ...pickRandom(gameData),
+        showCurrentPlayers: true,
+      });
+      setGameCardBData({
+        ...pickRandom(gameData),
+        showCurrentPlayers: false,
+      });
     };
 
     fetchGameData();
   }, []);
 
-  const handleClick = (id: string) => {
+  const handleClick = async (id: string) => {
     if (gameCardAData && gameCardBData) {
-      setGameCardAData({ ...gameCardAData, showCurrentPlayers: true });
-      setGameCardBData({ ...gameCardBData, showCurrentPlayers: true });
+      const gameCardThatWasShowingCurrentPlayers =
+        gameCardAData.showCurrentPlayers ? 'A' : 'B';
+
+      setGameCardAData((prev) => ({
+        ...prev!,
+        showCurrentPlayers: true,
+        disableButton: true,
+      }));
+      setGameCardBData((prev) => ({
+        ...prev!,
+        showCurrentPlayers: true,
+        disableButton: true,
+      }));
 
       const clickedGameCard =
         id === gameCardAData.id ? gameCardAData : gameCardBData;
@@ -39,10 +53,46 @@ export default function App() {
         id === gameCardAData.id ? gameCardBData : gameCardAData;
       if (clickedGameCard.currentPlayers >= otherGameCard.currentPlayers) {
         setDividerState(DividerState.Tick);
-        setScore(score + 1);
+        setStreak((prev) => prev + 1);
+        await wait(2000);
+        setDividerState(DividerState.Or);
+        if (gameCardThatWasShowingCurrentPlayers === 'A') {
+          setGameCardAData((prev) => ({
+            ...prev!,
+            ...pickRandom(gameData),
+            showCurrentPlayers: false,
+          }));
+        } else {
+          setGameCardBData((prev) => ({
+            ...prev!,
+            ...pickRandom(gameData),
+            showCurrentPlayers: false,
+          }));
+        }
       } else {
         setDividerState(DividerState.Cross);
+        await wait(2000);
+        setDividerState(DividerState.Or);
+        setStreak(0);
+        setGameCardAData({
+          ...gameCardAData,
+          ...pickRandom(gameData),
+          showCurrentPlayers: true,
+        });
+        setGameCardBData({
+          ...gameCardBData,
+          ...pickRandom(gameData),
+          showCurrentPlayers: false,
+        });
       }
+      setGameCardAData((prev) => ({
+        ...prev!,
+        disableButton: false,
+      }));
+      setGameCardBData((prev) => ({
+        ...prev!,
+        disableButton: false,
+      }));
     }
   };
 
@@ -50,8 +100,8 @@ export default function App() {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <div className="max-w-5xl px-8">
-          <span className="mb-8 block text-center text-4xl font-bold text-gray-900 vertical:mb-4 vertical:text-xl">
-            Score: {score}
+          <span className="mb-8 block text-center text-4xl font-bold text-gray-900 vertical:mb-2 vertical:text-base">
+            Score: {streak}
           </span>
           <div className="flex flex-col items-end gap-x-12 gap-y-8 lg:flex-row vertical:gap-y-4">
             <GameCard {...gameCardAData} handleClick={handleClick} />

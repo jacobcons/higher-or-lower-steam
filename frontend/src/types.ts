@@ -6,6 +6,7 @@ export type GameData = {
 
 export type GameCardData = GameData & {
   showCurrentPlayers: boolean;
+  disableButton?: boolean;
 };
 
 export const enum DividerState {
