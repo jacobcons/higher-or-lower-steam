@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import GameCard from './GameCard.tsx';
-import { DividerState, GameCardData, GameData } from './types.ts';
-import { pickRandom, wait } from './utils.ts';
-
-let gameData: GameData[] = [];
+import { DividerState, GameCardData } from './types.ts';
+import {
+  currentGameData,
+  originalGameData,
+  pickRandomAndReplenish,
+  populateGameData,
+  wait,
+} from './utils.ts';
 
 export default function App() {
   const [gameCardAData, setGameCardAData] = useState<GameCardData>();
@@ -12,23 +16,19 @@ export default function App() {
   const [dividerState, setDividerState] = useState(DividerState.Or);
 
   useEffect(() => {
-    const fetchGameData = async () => {
-      const res = await fetch(
-        'https://gist.githubusercontent.com/jacobcons/98afc1384c066954b36bf86e16bb2c01/raw/119005fc77abc0c4ee980b10953ea4ff30537c85/steam-game-data.json',
-      );
-      const txt = await res.text();
-      gameData = JSON.parse(txt) as GameData[];
+    const setGameCards = async () => {
+      await populateGameData();
       setGameCardAData({
-        ...pickRandom(gameData),
+        ...pickRandomAndReplenish(),
         showCurrentPlayers: true,
       });
       setGameCardBData({
-        ...pickRandom(gameData),
+        ...pickRandomAndReplenish(),
         showCurrentPlayers: false,
       });
     };
 
-    fetchGameData();
+    setGameCards();
   }, []);
 
   const handleClick = async (id: string) => {
@@ -36,11 +36,13 @@ export default function App() {
       const gameCardThatWasShowingCurrentPlayers =
         gameCardAData.showCurrentPlayers ? 'A' : 'B';
 
+      console.log(currentGameData);
       setGameCardAData((prev) => ({
         ...prev!,
         showCurrentPlayers: true,
         disableButton: true,
       }));
+      console.log(currentGameData);
       setGameCardBData((prev) => ({
         ...prev!,
         showCurrentPlayers: true,
@@ -57,15 +59,17 @@ export default function App() {
         await wait(2000);
         setDividerState(DividerState.Or);
         if (gameCardThatWasShowingCurrentPlayers === 'A') {
-          setGameCardAData((prev) => ({
-            ...prev!,
-            ...pickRandom(gameData),
-            showCurrentPlayers: false,
-          }));
+          setGameCardAData((prev) => {
+            return {
+              ...prev!,
+              ...pickRandomAndReplenish(),
+              showCurrentPlayers: false,
+            };
+          });
         } else {
           setGameCardBData((prev) => ({
             ...prev!,
-            ...pickRandom(gameData),
+            ...pickRandomAndReplenish(),
             showCurrentPlayers: false,
           }));
         }
@@ -76,12 +80,12 @@ export default function App() {
         setStreak(0);
         setGameCardAData({
           ...gameCardAData,
-          ...pickRandom(gameData),
+          ...pickRandomAndReplenish(),
           showCurrentPlayers: true,
         });
         setGameCardBData({
           ...gameCardBData,
-          ...pickRandom(gameData),
+          ...pickRandomAndReplenish(),
           showCurrentPlayers: false,
         });
       }
