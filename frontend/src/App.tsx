@@ -3,6 +3,7 @@ import GameCard from './GameCard.tsx';
 import { DividerState, GameCardData, ModalState } from './types.ts';
 import {
   currentGameData,
+  generateHeaderImageUrl,
   originalGameData,
   pickRandom,
   populateGameData,
@@ -60,6 +61,10 @@ export default function App() {
         id === gameCardAData.id ? gameCardBData : gameCardAData;
       if (clickedGameCard.currentPlayers >= otherGameCard.currentPlayers) {
         // correct guess => replace game card that was showing current player initially with new one
+        // preload image for next card
+        const newGame = pickRandom();
+        new Image().src = generateHeaderImageUrl(newGame.id);
+
         setDividerState(DividerState.Tick);
         const newScore = score + 1;
         setScore(newScore);
@@ -72,13 +77,13 @@ export default function App() {
         } else if (gameCardThatWasShowingCurrentPlayers === 'A') {
           setGameCardAData((prev) => ({
             ...prev!,
-            ...pickRandom(),
+            ...newGame,
             showCurrentPlayers: false,
           }));
         } else {
           setGameCardBData((prev) => ({
             ...prev!,
-            ...pickRandom(),
+            ...newGame,
             showCurrentPlayers: false,
           }));
         }

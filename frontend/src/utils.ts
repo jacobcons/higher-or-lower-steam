@@ -25,3 +25,7 @@ export async function populateGameData() {
 export function resetGameData() {
   currentGameData = [...originalGameData];
 }
+
+export function generateHeaderImageUrl(id: string) {
+  return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`;
+}

@@ -1,5 +1,6 @@
 import { GameCardData } from './types.ts';
 import { useEffect, useState } from 'react';
+import { generateHeaderImageUrl } from './utils.ts';
 
 export default function GameCard({
   id,
@@ -16,9 +17,7 @@ export default function GameCard({
   useEffect(() => {
     setImageNotFound(false);
   }, [id]);
-  const src = imageNotFound
-    ? 'steam.png'
-    : `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`;
+  const src = imageNotFound ? 'steam.png' : generateHeaderImageUrl(id);
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 lg:gap-y-6 vertical:gap-y-2">
