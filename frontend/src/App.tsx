@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import GameCard from './GameCard.tsx';
 import { DividerState, GameCardData, ModalState } from './types.ts';
 import {
+  correctSound,
   currentGameData,
   generateHeaderImageUrl,
+  loadAudio,
   originalGameData,
   pickRandom,
   populateGameData,
   resetGameData,
   wait,
+  wrongSound,
 } from './utils.ts';
 
 export default function App() {
@@ -34,6 +37,8 @@ export default function App() {
       });
     };
 
+    loadAudio(correctSound, 0.1);
+    loadAudio(wrongSound, 0.02);
     setGameCards();
   }, []);
 
@@ -65,6 +70,7 @@ export default function App() {
         const newGame = pickRandom();
         new Image().src = generateHeaderImageUrl(newGame.id);
 
+        correctSound.play();
         setDividerState(DividerState.Tick);
         const newScore = score + 1;
         setScore(newScore);
@@ -97,7 +103,8 @@ export default function App() {
           disableButton: false,
         }));
       } else {
-        // incorrect guess => lose modal
+        // wrong guess => lose modal
+        wrongSound.play();
         setDividerState(DividerState.Cross);
 
         await wait(2000);

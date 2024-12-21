@@ -29,3 +29,11 @@ export function resetGameData() {
 export function generateHeaderImageUrl(id: string) {
   return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`;
 }
+
+export function loadAudio(audio: HTMLAudioElement, volume: number) {
+  audio.load();
+  audio.volume = volume;
+}
+
+export const correctSound = new Audio('correct.mp3');
+export const wrongSound = new Audio('wrong.mp3');
