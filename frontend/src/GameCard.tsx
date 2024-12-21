@@ -6,7 +6,7 @@ export default function GameCard({
   name,
   currentPlayers,
   showCurrentPlayers,
-  disableButton = false,
+  disableButton,
   handleClick,
 }: GameCardData & { handleClick: (id: string) => void }) {
   const [imageNotFound, setImageNotFound] = useState(false);

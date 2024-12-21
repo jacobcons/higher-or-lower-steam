@@ -14,3 +14,9 @@ export const enum DividerState {
   Tick,
   Cross,
 }
+
+export const enum ModalState {
+  Hide,
+  Win,
+  Lose,
+}
