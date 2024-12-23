@@ -31,6 +31,9 @@ export async function main() {
 
 async function getDataFromPage(url) {
   const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error('Error fetching game data')
+  }
   const txt = await res.text();
   const { document } = new JSDOM(txt).window;
   const rows = Array.from(document.querySelectorAll('#top-games tbody tr'));

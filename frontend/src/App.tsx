@@ -3,7 +3,6 @@ import GameCard from './GameCard.tsx';
 import { DividerState, GameCardData, ModalState } from './types.ts';
 import {
   correctSound,
-  currentGameData,
   generateHeaderImageUrl,
   loadAudio,
   originalGameData,
@@ -159,7 +158,6 @@ export default function App() {
 
         <div
           id="default-modal"
-          tabIndex="-1"
           aria-hidden="true"
           className={`fixed bottom-0 left-0 right-0 top-0 z-50 max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-slate-800/50 md:inset-0 ${modalState === ModalState.Hide ? 'hidden' : 'flex'}`}
         >
